@@ -1,0 +1,21 @@
+.input-component {
+    max-width: 100%;
+    /* height: 3rem; */
+    font-size: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    gap: 0.5em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+/* This width should be for title only */
+.input-component input {
+    max-width: 100%;
+    box-sizing: border-box;
+    /* width: 48rem; */
+    height: 1rem;
+    padding: 1rem;
+    font-size: 1rem;
+}

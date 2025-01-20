@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-section1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container-section1-colors {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 5rem;
+    margin-left: 1rem;
+}
+
+.container-section1-color {
+    height: 2.5rem;
+    width: 2.5rem;
+    gap: 20px;
+    border-radius: 50%;
+}
+
+.container-section1-btn {
+    margin-right: 2rem;
+}
+
+.container-section1-btn button {
+    height: 2.5rem;
+    width: 6.5rem;
+    background-color: #80ED99;
+    border: 1px solid rgb(81 143 61);
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.93rem;
+    cursor: pointer;
+}
+
+/* automatically created with feather icons */
+.container-section1-btn button svg {    
+    width: 1em;
+    height: 1em;
+}
