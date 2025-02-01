@@ -1,0 +1,130 @@
+.resume {
+    min-height: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    /* width: 100vw; */
+}
+
+.resume-container {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 0 5px gray;
+    width: 50rem;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+
+    /* align-items: center; */
+}
+
+.resume-container-headers {
+    display: flex;
+    justify-content: center;
+}
+
+.bassic-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.basic-info-name {}
+
+.basic-info-contacts {
+    display: flex;
+    /* align-items: center; */
+    gap: 0.8rem;
+    justify-content: center;
+    padding-top: 0.4rem;
+}
+
+.basic-info-address {}
+
+.basic-info-phone {}
+
+.basic-info-links {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    padding-top: 0.4rem;
+}
+
+.header-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.data-align {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.section-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.multiple-content {
+    margin-top : 1rem;
+    padding-top: 0.5rem;
+    border-top: 2px solid rgba(0, 0, 0, 0.2);
+
+}
+
+.work-exp {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.work-exp-title {}
+
+.work-exp-company {}
+
+.work-exp-certificate {}
+
+.work-exp-date {}
+
+.project {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem
+}
+
+.project-overview {
+    display: flex;
+}
+
+.project-deployed {}
+
+.project-github {}
+
+.education {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.summary {
+    margin-top: 1rem;
+}
+
+.resume-container-columns {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+.resume-container-column1 {
+    width: 50%;
+    margin: 0 1rem 0 2rem;
+}
+
+.resume-container-column2 {
+    width: 50%;
+    margin: 0 2rem 0 1rem;
+}

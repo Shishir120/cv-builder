@@ -1,5 +1,6 @@
-// Solve when to diplay multiple chip and change accordingly // Testing left
-// Solve deletion of chips when X is pressed. // Testing left
+// Solved when to diplay multiple chip and change accordingly // Testing left
+// Solved deletion of chips when X is pressed. // Testing left
+// Solved multiple chip display problem. // Testing left
 
 
 import React, { useState, useEffect, act } from "react";
@@ -10,6 +11,8 @@ import { X } from 'react-feather'
 const Editor = (props) => {
 
     const sections = props.sections
+    const resumeInformation = props.resumeInformation
+    const setResumeInformation = props.setResumeInformation
 
     // By default selected state is basicInfo
     const [activeSectionKey, setActiveSectionKey] = useState(
@@ -20,34 +23,7 @@ const Editor = (props) => {
     const [activeDetailIndex, setActiveDetailIndex] = useState(0)
 
 
-    // Information in resume
-    const [resumeInformation, setResumeInformation] = useState({
-        [sections.basicInfo]: {
-            id: sections.basicInfo,
-            sectionTitle: sections.basicInfo,
-            details: {}
-        },
-        [sections.education]: {
-            id: sections.education,
-            sectionTitle: sections.education,
-            details: []
-        },
-        [sections.workExperience]: {
-            id: sections.workExperience,
-            sectionTitle: sections.workExperience,
-            details: []
-        },
-        [sections.projects]: {
-            id: sections.projects,
-            sectionTitle: sections.projects,
-            details: []
-        },
-        [sections.summary]: {
-            id: sections.summary,
-            sectionTitle: sections.summary,
-            details: ""
-        },
-    })
+
 
     const [activeInformation, setActiveInformation] = useState(
         resumeInformation[sections.basicInfo]
@@ -319,6 +295,30 @@ const Editor = (props) => {
         }
     }
 
+
+    // Under development
+
+    // It returns array whether that particular section index is empty or not
+    // for eg. [true, false] // first detail true and second detail empty
+    const isDetailsEmpty_Array = () => {
+
+        // Ensures details is array (for education, workExp and projects only)
+        if (Array.isArray(activeInformation?.details)) {
+
+            const hasNonEmptyValue = activeInformation?.details?.map((detail) => {
+                return Object.values(detail).every(value => value === "")
+            })
+            return hasNonEmptyValue
+        }
+    }
+
+    // const isLastDetailEmpty = () => {
+    //     if(Array.isArray(activeInformation?.details)) {
+
+    //     }
+    // }
+
+
     // To save information
     const handleSave = () => {
         // activeInformation.details
@@ -326,6 +326,22 @@ const Editor = (props) => {
 
         let tempDetails = []
         let tempValue = {}
+
+        // May be useful
+        // activeInformation?.details?.map((detail, index) => {
+        //     Object.values(detail).some(value => value !== "") ? "" :
+        //      handleDeleteData(index) 
+        // })
+
+        // let detailStatus = isDetailsEmpty_Array()
+
+        // Testing
+        // if (isDetailsEmpty_Array()[activeDetailIndex]) {
+        //     console.log(isDetailsEmpty_Array()[activeDetailIndex])
+        //     return
+        // }
+        // else {
+        // }
 
         switch (sections[activeSectionKey]) {
 
@@ -392,7 +408,8 @@ const Editor = (props) => {
 
                 setResumeInformation((prev) => (
                     {
-                        ...prev, [sections.workExperience]: {
+                        ...prev,
+                        [sections.workExperience]: {
                             ...prev[sections.workExperience],
                             details: tempDetails,
                             sectionTitle
@@ -442,32 +459,51 @@ const Editor = (props) => {
                 break;
         }
 
+
     }
 
     const handleAddData = () => {
-        const lastIndexInformation = activeInformation?.details[activeInformation.details.length - 1]
 
-        // If no keys, meaning object is empty
-        // If object is empty, no no need to add more chip
-        Object.keys(lastIndexInformation).length !== 0 ?
-            // Adding new empty object to details so that new chip is displayed
-            setActiveInformation((prev) => ({ ...prev, details: [...prev.details, {}] }))
-            : ""
+        // Checks whether 
+        const lastIndex = activeInformation?.details?.length - 1
 
-        console.log(activeDetailIndex)
+        if (isDetailsEmpty_Array()[lastIndex]) {
+            console.log(isDetailsEmpty_Array()[lastIndex])
+            return
+        }
+        else {
+
+            const lastIndexInformation = activeInformation?.details[activeInformation.details.length - 1]
+
+            // If no keys, meaning object is empty
+            // If object is empty, no no need to add more chip
+            Object.keys(lastIndexInformation).length !== 0 ?
+
+                // Adding new empty object to details so that new chip is displayed
+                setActiveInformation((prev) => ({ ...prev, details: [...prev.details, {}] }))
+                : ""
+
+            console.log(activeDetailIndex)
+        }
     }
 
+
     const handleDeleteData = (index) => {
-        // activeInformation?.details.length === 1 ?
-        // return
-        // // console.log("Data cannot be deleted")
-        // : 
 
-        const tempActiveInformationDetails = [...activeInformation.details]
+        let tempActiveInformationDetails = [...activeInformation.details]
         tempActiveInformationDetails?.splice(index, 1)
-        // console.log("Data deleted" + index)
 
-        setActiveInformation((prev) => ({...prev, details: tempActiveInformationDetails}))
+        // setActiveInformation((prev) => ({ ...prev, details: tempActiveInformationDetails }))
+
+        setResumeInformation((prev) => ({
+            ...prev,
+            [sections[activeSectionKey]]: {
+                ...prev[sections[activeSectionKey]],
+                details: tempActiveInformationDetails
+            }
+        })
+        )
+
     }
 
 
@@ -526,15 +562,31 @@ const Editor = (props) => {
             summary: activeInformation?.details || "",
         })
 
-        // setActiveInformation(resumeInformation[sections[activeSectionKey]])
-
         console.log(resumeInformation)
 
         // For Testiing
         console.log(activeInformation)
 
-        // setActiveInformation(resumeInformation[sections[activeSectionKey]])
+        // For Testing
+        console.log(isDetailsEmpty_Array())
+
     }, [activeInformation, activeDetailIndex])
+
+    // useEffect(() => {
+    //     setActiveInformation(resumeInformation[sections[activeSectionKey]])
+    // }, [activeDetailIndex])
+
+
+    useEffect(() => {
+        setActiveDetailIndex(0)
+    }, [activeSectionKey])
+
+
+
+    // Testing
+    // useEffect(() => {
+    //     handleSave();
+    // },[values])
 
 
     return (
@@ -561,8 +613,8 @@ const Editor = (props) => {
                     <InputComponent key={'title'} label="Title"
                         value={sectionTitle}
                         onChange={(evt) => setSectionTitle(evt.target.value)} />
-
                 </div>
+
 
                 {/* Chips for multiple information . Conditional. Dynamic Display */}
                 <div className={styles['chips']}>
@@ -570,17 +622,20 @@ const Editor = (props) => {
                         (Array.isArray(activeInformation?.details)) ?
                             activeInformation.details?.map((item, index) => {
                                 return (
+
                                     <div key={activeInformation.id + index}
                                         onClick={() => setActiveDetailIndex(index)}
                                         className={`${styles['chip']}
-                                        ${activeDetailIndex === index ? styles['chip-active'] : ""}`}
+                                    ${activeDetailIndex === index ? styles['chip-active'] : ""}`}
                                     >
+
+
                                         <p>
                                             {activeInformation.sectionTitle}-{index + 1}
                                         </p>
                                         <span
                                             style={{ color: "white", fontSize: "1.2em", display: "flex" }}
-                                            onClick= {(event) => {
+                                            onClick={(event) => {
                                                 event.stopPropagation();
                                                 handleDeleteData(index)
                                             }}
@@ -589,11 +644,13 @@ const Editor = (props) => {
                                         </span>
                                     </div>
                                 )
+
                                 // { setActiveDetailIndex(index) }
                             }) : ""
                     }
+
                     {
-                        activeInformation?.details[0] ?
+                        (activeInformation?.details[0]) ?
                             <span className={styles['chip-newdata']}
                                 onClick={handleAddData}>
                                 <p>New+</p>
