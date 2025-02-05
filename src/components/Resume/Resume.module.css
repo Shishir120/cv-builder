@@ -1,3 +1,5 @@
+/* Check out .summary */
+
 .resume {
     min-height: 10rem;
     display: flex;
@@ -80,13 +82,28 @@
     gap: 0.5rem;
 }
 
-.work-exp-title {}
+.workexp-content-individual {
+    font-size: 1.5rem;
+}
 
-.work-exp-company {}
+/* .work-exp-title {
+    font-size: 1.5rem;
+}
 
-.work-exp-certificate {}
+.work-exp-company {
+    font-size: 1.5rem;
 
-.work-exp-date {}
+}
+
+.work-exp-certificate {
+    font-size: 1.5rem;
+    
+}
+
+.work-exp-date {
+    font-size: 1.5rem;
+
+} */
 
 .project {
     display: flex;
@@ -103,14 +120,18 @@
 .project-github {}
 
 .education {
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
 .summary {
-    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 37px;       /*Just barely making the code work*/
+    /* margin-top: 1rem; */
 }
 
 .resume-container-columns {

@@ -1,5 +1,6 @@
 // Work Experience and other template yet to design
 // also design the resume in columns properly using use state
+// left to make draggable property in handleDragDrops
 
 import React, { useEffect, useState } from "react";
 import styles from './Resume.module.css'
@@ -18,6 +19,89 @@ const Resume = (props) => {
         education: resumeInformation[sections.education],
         summary: resumeInformation[sections.summary]
     }
+
+    // For drag and drop property
+    const [source, setSource] = useState("");
+    const [target, setTarget] = useState("");
+
+    const handleDragDrop = () => {
+        // console.log("Handle drag drop called")
+        if (!source || !target) return
+
+        // console.log("Not returned")
+        let tempColumns = { ...columns }
+
+        // console.log(`temp columns column0 is: ${tempColumns.column0}`)
+        // console.log(tempColumns)
+
+        let swapSourceRowIndex = tempColumns.column0.findIndex((item) => {
+           return source === item
+        })
+
+        let swapTargetRowIndex = tempColumns.column0.findIndex((item) => {
+           return target === item
+        })
+        console.log(`source is ${source} and target is ${target}`);
+
+
+        console.log(`swap Target row index = ${swapTargetRowIndex} and source index is ${swapSourceRowIndex}`)
+
+        // To determine whether data is in column0 or column1 inside columns
+        let swapSourceColumnIndex = 0;
+        let swapTargetColumnIndex = 0;
+
+
+        if (swapSourceRowIndex < 0) {
+            swapSourceColumnIndex = 1;
+            swapSourceRowIndex = tempColumns.column1.findIndex((item) => {
+                return item === source
+            })
+        }
+
+        if (swapTargetRowIndex < 0) {
+            swapTargetColumnIndex = 1;
+            swapTargetRowIndex = tempColumns.column1.findIndex((item) => {
+                return item === target
+            })
+        }
+
+        // console.log("before if condition")   
+        console.log(`swap Target column index = ${swapTargetColumnIndex} and source index is ${swapSourceColumnIndex}`)
+
+        if (swapTargetColumnIndex == 0 && swapSourceColumnIndex == 0) {
+
+            let tempData = tempColumns.column0[swapTargetRowIndex];
+            tempColumns.column0[swapTargetRowIndex] = tempColumns.column0[swapSourceRowIndex];
+            tempColumns.column0[swapSourceRowIndex] = tempData
+            setColumns(tempColumns)
+        } 
+        else if(swapTargetColumnIndex == 0 && swapSourceColumnIndex == 1) {
+
+            let tempData = tempColumns.column0[swapTargetRowIndex];
+            tempColumns.column0[swapTargetRowIndex] = tempColumns.column1[swapSourceRowIndex];
+            tempColumns.column1[swapSourceRowIndex] = tempData
+            setColumns(tempColumns)
+
+        }
+        else if(swapTargetColumnIndex == 1 && swapSourceColumnIndex == 0) {
+
+            let tempData = tempColumns.column1[swapTargetRowIndex];
+            tempColumns.column1[swapTargetRowIndex] = tempColumns.column0[swapSourceRowIndex];
+            tempColumns.column0[swapSourceRowIndex] = tempData
+            setColumns(tempColumns)
+
+        }
+         else if(swapTargetColumnIndex == 1 && swapSourceColumnIndex == 1) {
+
+            let tempData = tempColumns.column1[swapTargetRowIndex];
+            tempColumns.column1[swapTargetRowIndex] = tempColumns.column1[swapSourceRowIndex];
+            tempColumns.column1[swapSourceRowIndex] = tempData
+            setColumns(tempColumns)
+
+        }
+
+    }
+
 
     const getFormattedDate = (value) => {
 
@@ -43,7 +127,7 @@ const Resume = (props) => {
 
                 {info.basicInfo?.details?.address ?
                     <div className={`${styles['basic-info-address']} ${styles['header-align']}`}>
-                        {<Home />} {info.basicInfo?.details?.address}
+                        {<Home size={20} />} {info.basicInfo?.details?.address}
 
                     </div>
                     : ""
@@ -51,14 +135,14 @@ const Resume = (props) => {
 
                 {info.basicInfo?.details?.phone ?
                     <div className={`${styles['basic-info-phone']} ${styles['header-align']}`}>
-                        {<Phone />} {info.basicInfo?.details?.phone}
+                        {<Phone size={20} />} {info.basicInfo?.details?.phone}
                     </div>
                     : ""
                 }
 
                 {info.basicInfo?.details?.email ?
                     <div className={`${styles['basic-info-email']} ${styles['header-align']}`}>
-                        {<Mail />} {info.basicInfo?.details?.email}
+                        {<Mail size={20} />} {info.basicInfo?.details?.email}
                     </div>
                     : ""
                 }
@@ -69,14 +153,14 @@ const Resume = (props) => {
 
                 {info.basicInfo?.details?.github ?
                     <div className={`${styles['basic-info-github']} ${styles['header-align']}`}>
-                        {<GitHub />} {info.basicInfo?.details?.github}
+                        {<GitHub size={20} />} {info.basicInfo?.details?.github}
                     </div>
                     : ""
                 }
 
                 {info.basicInfo?.details?.linkedin ?
                     <div className={`${styles['basic-info-linkedin']} ${styles['header-align']}`}>
-                        {<Linkedin />} {info.basicInfo?.details?.linkedin}
+                        {<Linkedin size={20} />} {info.basicInfo?.details?.linkedin}
                     </div>
                     : ""
                 }
@@ -85,12 +169,16 @@ const Resume = (props) => {
         </div>
     )
 
-
     const columnDiv = {
 
         [sections.workExperience]: (
 
-            <div className={styles['work-exp']} key={'workExperience'}>
+            <div draggable
+                onDragOver={() => setTarget(sections.workExperience)}
+                onDragEnd={() => setSource(sections.workExperience)}
+                className={styles['work-exp']}
+                key={'workExperience'}>
+
 
                 {info.workExp?.sectionTitle ?
                     <div className={styles['section-title']}>
@@ -115,21 +203,21 @@ const Resume = (props) => {
 
                                 {item.company ?
                                     <div className={`${styles['work-exp-company']} ${styles['data-align']}`}>
-                                        <Trello /> {item.company}
+                                        <Trello size={20} /> {item.company}
                                     </div>
                                     : ""
                                 }
 
                                 {item.certificate ?
                                     <div className={`${styles['work-exp-certificate']} ${styles['data-align']}`}>
-                                        <Link /> {item.certificate}
+                                        <Link size={20} /> {item.certificate}
                                     </div>
                                     : ""
                                 }
 
                                 {(item.startDate && item.endDate) ?
                                     <div className={`${styles['work-exp-date']} ${styles['data-align']}`}>
-                                        <Calendar /> {getFormattedDate(item.startDate)} -
+                                        <Calendar size={20} /> {getFormattedDate(item.startDate)} -
                                         {getFormattedDate(item.endDate)}
                                     </div>
                                     : ""
@@ -146,7 +234,10 @@ const Resume = (props) => {
 
         [sections.projects]: (
 
-            <div className={styles['project']}>
+            <div draggable
+                onDragOver={() => setTarget(sections.projects)}
+                onDragEnd={() => setSource(sections.projects)}
+                className={styles['project']}>
 
                 {info.projects?.sectionTitle ?
                     <div className={styles['section-title']}>
@@ -163,28 +254,28 @@ const Resume = (props) => {
 
                                 {item.title ?
                                     <div className={`${styles['project-title']} ${styles['data-align']}`}>
-                                        <Clipboard />{item.title}
+                                        <Clipboard size={20} />{item.title}
                                     </div>
                                     : ""
                                 }
 
                                 {item.overview ?
                                     <div className={`${styles['project-overview']}`}>
-                                        <CornerDownRight />{item.overview}
+                                        <CornerDownRight size={20} />{item.overview}
                                     </div>
                                     : ""
                                 }
 
                                 {item.deployedLink ?
                                     <div className={`${styles['project-deployed']} ${styles['data-align']}`}>
-                                        <Link /> {item.deployedLink}
+                                        <Link size={20} /> {item.deployedLink}
                                     </div>
                                     : ""
                                 }
 
                                 {item.github ?
                                     <div className={`${styles['project-github']} ${styles['data-align']}`}>
-                                        <GitHub /> {item.github}
+                                        <GitHub size={20} /> {item.github}
                                     </div>
                                     : ""
                                 }
@@ -200,7 +291,10 @@ const Resume = (props) => {
 
         [sections.education]: (
 
-            <div className={styles['education']} key={'education'}>
+            <div draggable
+                onDragOver={() => setTarget(sections.education)}
+                onDragEnd={() => setSource(sections.education)}
+                className={styles['education']} key={'education'}>
 
                 {info.education?.sectionTitle ?
                     <div className={styles['section-title']}>
@@ -230,7 +324,7 @@ const Resume = (props) => {
 
                                 {(item.startDate && item.endDate) ?
                                     <div className={`${styles['education-date']} ${styles['data-align']}`}>
-                                        <Calendar /> {getFormattedDate(item.startDate)} -
+                                        <Calendar size={20} /> {getFormattedDate(item.startDate)} -
                                         {getFormattedDate(item.endDate)}
                                     </div>
                                     : ""
@@ -246,7 +340,10 @@ const Resume = (props) => {
 
 
         [sections.summary]: (
-            <div className={styles['summary']} key={'summary'}>
+            <div draggable
+                onDragOver={() => setTarget(sections.summary)}
+                onDragEnd={() => setSource(sections.summary)}
+                className={styles['summary']} key={'summary'}>
 
                 {info.summary?.sectionTitle ?
                     <div className={styles['section-title']}>
@@ -284,6 +381,10 @@ const Resume = (props) => {
             }
         )
     }, [resumeInformation])
+
+    useEffect(() => {
+        handleDragDrop();
+    }, [source])
 
 
     // console.log(resumeInformation?.[sections.basicInfo]?.details?.name)

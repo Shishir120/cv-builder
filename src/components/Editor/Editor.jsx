@@ -2,7 +2,7 @@
 // Solved deletion of chips when X is pressed. // Testing left
 // Solved multiple chip display problem. // Testing left
 
-
+        
 import React, { useState, useEffect, act } from "react";
 import styles from './Editor.module.css';
 import InputComponent from "../InputComponent/InputComponent.jsx";
