@@ -518,7 +518,7 @@ const Editor = (props) => {
             email: activeInformation?.details?.email || "",
             linkedIn: activeInformation?.details?.linkedIn || "",
 
-            github: activeInformation?.details[activeDetailIndex]?.github || "",
+            github: activeInformation?.details[activeDetailIndex]?.github || activeInformation?.details?.github || "",
 
             aboutYourself: activeInformation?.details?.aboutYourself || "",
 
@@ -547,7 +547,9 @@ const Editor = (props) => {
             email: activeInformation?.details?.email || "",
             linkedIn: activeInformation?.details?.linkedIn || "",
 
-            github: activeInformation?.details[activeDetailIndex]?.github || "",
+            /*Two cases in github as in basicInfo there is details object and  
+            in rest others there is details array*/
+            github: activeInformation?.details[activeDetailIndex]?.github || activeInformation?.details?.github || "",
 
             aboutYourself: activeInformation?.details?.aboutYourself || "",
 
@@ -650,11 +652,14 @@ const Editor = (props) => {
                     }
 
                     {
-                        (activeInformation?.details[0]) ?
-                            <span className={styles['chip-newdata']}
-                                onClick={handleAddData}>
-                                <p>New+</p>
-                            </span> : ""
+                        (Array.isArray(activeInformation?.details)) ?
+
+                            (activeInformation?.details[0]) ?
+                                <span className={styles['chip-newdata']}
+                                    onClick={handleAddData}>
+                                    <p>New+</p>
+                                </span> : ""
+                             : ""
                     }
 
                 </div>

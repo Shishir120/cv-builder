@@ -1,8 +1,12 @@
-// Work Experience and other template yet to design
-// also design the resume in columns properly using use state
-// left to make draggable property in handleDragDrops
+// Work Experience and other template yet to design 
+// Underline the Section Title in preview
+// also design the resume in columns properly using use state // Done
+// left to make draggable property in handleDragDrops // Testing left
+// Colors managed in resume.... Done
 
-import React, { useEffect, useState } from "react";
+// Left to make resume downloadable
+
+import React, { useEffect, useState, useRef } from "react";
 import styles from './Resume.module.css'
 import { GitHub, Linkedin, Mail, Phone, Home, Link, Calendar, Trello, Clipboard, CornerDownRight }
     from 'react-feather'
@@ -11,7 +15,10 @@ import { GitHub, Linkedin, Mail, Phone, Home, Link, Calendar, Trello, Clipboard,
 const Resume = (props) => {
     const sections = props.sections
     const resumeInformation = props.resumeInformation
+    const activeColor = props.color // For changing color in resume
 
+    const resumeRef = useRef()
+    
     const info = {
         basicInfo: resumeInformation[sections.basicInfo],
         workExp: resumeInformation[sections.workExperience],
@@ -34,23 +41,28 @@ const Resume = (props) => {
         // console.log(`temp columns column0 is: ${tempColumns.column0}`)
         // console.log(tempColumns)
 
+
+        // Returns -1 if index not found
         let swapSourceRowIndex = tempColumns.column0.findIndex((item) => {
            return source === item
         })
 
+        // Returns -1 if index not found
         let swapTargetRowIndex = tempColumns.column0.findIndex((item) => {
            return target === item
         })
-        console.log(`source is ${source} and target is ${target}`);
+        // console.log(`source is ${source} and target is ${target}`);
 
 
-        console.log(`swap Target row index = ${swapTargetRowIndex} and source index is ${swapSourceRowIndex}`)
+        // console.log(`swap Target row index = ${swapTargetRowIndex} and source index is ${swapSourceRowIndex}`)
 
         // To determine whether data is in column0 or column1 inside columns
+        // Initially setting source and target column to 0
         let swapSourceColumnIndex = 0;
         let swapTargetColumnIndex = 0;
 
 
+        // swapSourceRowIndex contains -1 if match not found in column0.
         if (swapSourceRowIndex < 0) {
             swapSourceColumnIndex = 1;
             swapSourceRowIndex = tempColumns.column1.findIndex((item) => {
@@ -58,6 +70,7 @@ const Resume = (props) => {
             })
         }
 
+        // swapTargerRowIndex contains -1 if match not found in column0.
         if (swapTargetRowIndex < 0) {
             swapTargetColumnIndex = 1;
             swapTargetRowIndex = tempColumns.column1.findIndex((item) => {
@@ -66,7 +79,7 @@ const Resume = (props) => {
         }
 
         // console.log("before if condition")   
-        console.log(`swap Target column index = ${swapTargetColumnIndex} and source index is ${swapSourceColumnIndex}`)
+        // console.log(`swap Target column index = ${swapTargetColumnIndex} and source index is ${swapSourceColumnIndex}`)
 
         if (swapTargetColumnIndex == 0 && swapSourceColumnIndex == 0) {
 
@@ -74,6 +87,8 @@ const Resume = (props) => {
             tempColumns.column0[swapTargetRowIndex] = tempColumns.column0[swapSourceRowIndex];
             tempColumns.column0[swapSourceRowIndex] = tempData
             setColumns(tempColumns)
+            setSource("");  // After swap, change source and target to empty string
+            setTarget("");
         } 
         else if(swapTargetColumnIndex == 0 && swapSourceColumnIndex == 1) {
 
@@ -81,6 +96,8 @@ const Resume = (props) => {
             tempColumns.column0[swapTargetRowIndex] = tempColumns.column1[swapSourceRowIndex];
             tempColumns.column1[swapSourceRowIndex] = tempData
             setColumns(tempColumns)
+            setSource("");  // After swap, change source and target to empty string
+            setTarget("");
 
         }
         else if(swapTargetColumnIndex == 1 && swapSourceColumnIndex == 0) {
@@ -89,6 +106,8 @@ const Resume = (props) => {
             tempColumns.column1[swapTargetRowIndex] = tempColumns.column0[swapSourceRowIndex];
             tempColumns.column0[swapSourceRowIndex] = tempData
             setColumns(tempColumns)
+            setSource("");  // After swap, change source and target to empty string
+            setTarget("");
 
         }
          else if(swapTargetColumnIndex == 1 && swapSourceColumnIndex == 1) {
@@ -97,7 +116,8 @@ const Resume = (props) => {
             tempColumns.column1[swapTargetRowIndex] = tempColumns.column1[swapSourceRowIndex];
             tempColumns.column1[swapSourceRowIndex] = tempData
             setColumns(tempColumns)
-
+            setSource("");  // After swap, change source and target to empty string
+            setTarget("");
         }
 
     }
@@ -127,7 +147,7 @@ const Resume = (props) => {
 
                 {info.basicInfo?.details?.address ?
                     <div className={`${styles['basic-info-address']} ${styles['header-align']}`}>
-                        {<Home size={20} />} {info.basicInfo?.details?.address}
+                        {<Home size={20} className={styles['feather-icon-style']} />} {info.basicInfo?.details?.address}
 
                     </div>
                     : ""
@@ -135,14 +155,14 @@ const Resume = (props) => {
 
                 {info.basicInfo?.details?.phone ?
                     <div className={`${styles['basic-info-phone']} ${styles['header-align']}`}>
-                        {<Phone size={20} />} {info.basicInfo?.details?.phone}
+                        {<Phone size={20} className={styles['feather-icon-style']} />} {info.basicInfo?.details?.phone}
                     </div>
                     : ""
                 }
 
                 {info.basicInfo?.details?.email ?
                     <div className={`${styles['basic-info-email']} ${styles['header-align']}`}>
-                        {<Mail size={20} />} {info.basicInfo?.details?.email}
+                        {<Mail size={20} className={styles['feather-icon-style']} />} {info.basicInfo?.details?.email}
                     </div>
                     : ""
                 }
@@ -153,14 +173,14 @@ const Resume = (props) => {
 
                 {info.basicInfo?.details?.github ?
                     <div className={`${styles['basic-info-github']} ${styles['header-align']}`}>
-                        {<GitHub size={20} />} {info.basicInfo?.details?.github}
+                        {<GitHub size={20} className={styles['feather-icon-style']} />} {info.basicInfo?.details?.github}
                     </div>
                     : ""
                 }
 
-                {info.basicInfo?.details?.linkedin ?
+                {info.basicInfo?.details?.linkedIn ?
                     <div className={`${styles['basic-info-linkedin']} ${styles['header-align']}`}>
-                        {<Linkedin size={20} />} {info.basicInfo?.details?.linkedin}
+                        {<Linkedin className={styles['feather-icon-style']} size={20} />} {info.basicInfo?.details?.linkedIn}
                     </div>
                     : ""
                 }
@@ -178,7 +198,6 @@ const Resume = (props) => {
                 onDragEnd={() => setSource(sections.workExperience)}
                 className={styles['work-exp']}
                 key={'workExperience'}>
-
 
                 {info.workExp?.sectionTitle ?
                     <div className={styles['section-title']}>
@@ -203,21 +222,22 @@ const Resume = (props) => {
 
                                 {item.company ?
                                     <div className={`${styles['work-exp-company']} ${styles['data-align']}`}>
-                                        <Trello size={20} /> {item.company}
+                                        {/* <Trello size={20} />  */}
+                                        {item.company}
                                     </div>
                                     : ""
                                 }
 
                                 {item.certificate ?
                                     <div className={`${styles['work-exp-certificate']} ${styles['data-align']}`}>
-                                        <Link size={20} /> {item.certificate}
+                                        <Link size={15} className={styles['feather-icon-style']} /> {item.certificate}
                                     </div>
                                     : ""
                                 }
 
                                 {(item.startDate && item.endDate) ?
                                     <div className={`${styles['work-exp-date']} ${styles['data-align']}`}>
-                                        <Calendar size={20} /> {getFormattedDate(item.startDate)} -
+                                        <Calendar size={15} className={styles['feather-icon-style']} /> {getFormattedDate(item.startDate)} -
                                         {getFormattedDate(item.endDate)}
                                     </div>
                                     : ""
@@ -249,33 +269,34 @@ const Resume = (props) => {
                 <div className={styles['project-content']}>
                     {info?.projects?.details?.map((item, index) => {
                         return (
-                            <div className={styles['project-content-individual']}
+                            <div className={`${styles['project-content-individual']}
+                            ${index >= 1 ? styles['multiple-content'] : ""}`}
                                 key={sections.projects + index}>
 
                                 {item.title ?
                                     <div className={`${styles['project-title']} ${styles['data-align']}`}>
-                                        <Clipboard size={20} />{item.title}
+                                        <Clipboard size={15} className={styles['feather-icon-style']} />{item.title}
                                     </div>
                                     : ""
                                 }
 
                                 {item.overview ?
-                                    <div className={`${styles['project-overview']}`}>
-                                        <CornerDownRight size={20} />{item.overview}
+                                    <div className={`${styles['project-overview']} ${styles['data-align']}`}>
+                                        <CornerDownRight size={15} className={styles['feather-icon-style']} />{item.overview}
                                     </div>
                                     : ""
                                 }
 
                                 {item.deployedLink ?
                                     <div className={`${styles['project-deployed']} ${styles['data-align']}`}>
-                                        <Link size={20} /> {item.deployedLink}
+                                        <Link size={15} className={styles['feather-icon-style']} /> {item.deployedLink}
                                     </div>
                                     : ""
                                 }
 
                                 {item.github ?
                                     <div className={`${styles['project-github']} ${styles['data-align']}`}>
-                                        <GitHub size={20} /> {item.github}
+                                        <GitHub size={15} className={styles['feather-icon-style']} /> {item.github}
                                     </div>
                                     : ""
                                 }
@@ -304,9 +325,10 @@ const Resume = (props) => {
                 }
 
                 <div className={styles['education-content']}>
-                    {info?.education?.details?.map((item) => {
+                    {info?.education?.details?.map((item, index) => {
                         return (
-                            <div className={styles['education-content-individual']}>
+                            <div className={`${styles['education-content-individual']}
+                            ${index >= 1 ? styles['multiple-content'] : ""}`}>
 
                                 {item.title ?
                                     <div className={`${styles['education-title']} ${styles['data-align']}`}>
@@ -317,6 +339,7 @@ const Resume = (props) => {
 
                                 {item.school ?
                                     <div className={`${styles['education-school']} ${styles['data-align']}`}>
+                                        {/* <Trello size={15} /> */}
                                         {item.school}
                                     </div>
                                     : ""
@@ -324,7 +347,7 @@ const Resume = (props) => {
 
                                 {(item.startDate && item.endDate) ?
                                     <div className={`${styles['education-date']} ${styles['data-align']}`}>
-                                        <Calendar size={20} /> {getFormattedDate(item.startDate)} -
+                                        <Calendar size={15} className={styles['feather-icon-style']} /> {getFormattedDate(item.startDate)} -
                                         {getFormattedDate(item.endDate)}
                                     </div>
                                     : ""
@@ -343,7 +366,8 @@ const Resume = (props) => {
             <div draggable
                 onDragOver={() => setTarget(sections.summary)}
                 onDragEnd={() => setSource(sections.summary)}
-                className={styles['summary']} key={'summary'}>
+                className={styles['summary']} key={'summary'}
+            >
 
                 {info.summary?.sectionTitle ?
                     <div className={styles['section-title']}>
@@ -362,8 +386,7 @@ const Resume = (props) => {
         )
     }
 
-
-
+    
     const [columns, setColumns] = useState(
         {
             column0: [sections.workExperience, sections.education],
@@ -387,9 +410,18 @@ const Resume = (props) => {
     }, [source])
 
 
+    useEffect(() => {
+        if (!activeColor) {
+            return
+        }
+
+        const resume = resumeRef.current
+        resume.style.setProperty("--color", activeColor)
+    }, [activeColor])
+
     // console.log(resumeInformation?.[sections.basicInfo]?.details?.name)
     return (
-        <div className={styles['resume']}>
+        <div className={styles['resume']} ref={resumeRef}>
 
             <h1>Here is a CV Preview</h1>
 

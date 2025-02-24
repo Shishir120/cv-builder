@@ -7,7 +7,7 @@ import { useState } from 'react'
 
 const Body = () => {
 
-    const colors = ['red', 'green', 'blue', 'gray', 'yellow']
+    const colors = ['gray', 'green', 'blue', 'red', '#b2b255', 'black']
 
     const sections = {
         basicInfo: "Basic Info",
@@ -16,6 +16,9 @@ const Body = () => {
         projects: "Projects",
         summary: "Summary",
     }
+
+    // Color to be used in resume
+    const [activeColor, setActiveColor] = useState('black')
 
     // Information in resume
     const [resumeInformation, setResumeInformation] = useState({
@@ -53,8 +56,11 @@ const Body = () => {
                     {colors.map((color) => {
                         return (
                             <div
+                                onClick={() => setActiveColor(color)} // To change color of contents in resume
                                 key={color}
-                                className={styles['container-section1-color']}
+                                className={`${styles['container-section1-color']} 
+                                    ${activeColor==color ? styles['active'] : "" } 
+                                    `} 
                                 style={{ backgroundColor: color }}
                             />
                         )
@@ -72,7 +78,9 @@ const Body = () => {
 
             <Resume
                 resumeInformation={resumeInformation}
-                sections={sections} />
+                sections={sections} 
+                color={activeColor}
+            />
         </div >
 
     )

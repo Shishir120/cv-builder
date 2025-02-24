@@ -22,7 +22,21 @@
     width: 2.5rem;
     gap: 20px;
     border-radius: 50%;
+    cursor: pointer;
 }
+
+.active {
+    border: 5px solid #084b1c;
+}
+
+/* .container-section1-color:hover {
+    border-color: black;
+
+} */
+/* 
+.container-section1-color:focus {
+    opacity: 0.1;
+} */
 
 .container-section1-btn {
     margin-right: 2rem;
