@@ -45,6 +45,10 @@
     padding-top: 0.4rem;
 }
 
+.basic-info-aboutYourself{
+    font-weight: 600;
+}
+
 .basic-info-address {}
 
 .basic-info-phone {}
@@ -71,8 +75,11 @@
 }
 
 .section-title {
-    font-weight: bold;
+    font-weight: bolder;
     font-size: 1.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid black;
+    margin-bottom: 0.5rem;
 }
 
 .multiple-content {
@@ -90,6 +97,9 @@
 
 .workexp-content-individual {
     font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
 }
 
 .work-exp-title {
@@ -128,6 +138,13 @@
     font-size: 1.1rem;
 }
 
+.project-content-individual {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
 .project-deployed {}
 
 .project-github {}
@@ -142,6 +159,13 @@
 .education-title {
     font-weight: 800;
     font-size: 1.1rem;
+}
+
+.education-content-individual {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
 }
 
 .summary {
@@ -163,7 +187,7 @@
     margin: 0 1rem 0 2rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .resume-container-column2 {
@@ -171,7 +195,7 @@
     margin: 0 2rem 0 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 

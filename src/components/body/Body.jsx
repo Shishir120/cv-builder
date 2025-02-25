@@ -3,7 +3,9 @@ import styles from './Body.module.css';
 import { DownloadCloud } from 'react-feather';
 import Editor from '../Editor/Editor.jsx';
 import Resume from '../Resume/Resume.jsx';
-import { useState } from 'react'
+import { useState, useRef } from 'react';
+import html2canvas from 'html2canvas';
+import { jsPDF } from "jspdf";
 
 const Body = () => {
 
@@ -49,6 +51,33 @@ const Body = () => {
         },
     })
 
+    const resumeRef = useRef()
+
+    const handleDownload = async() => {
+        const resume = resumeRef.current
+
+        if(!resume){
+            return
+        }
+        const canvas = await html2canvas(resume)
+        const data = canvas.toDataURL('image/png')
+
+        const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "px",
+            format: "a4"
+          });
+          const imgProperties = pdf.getImageProperties(data); // imgProperties contains properties like actual width and actual height
+
+          const pdfWidth = pdf.internal.pageSize.getWidth();    // Setting width to width of a4 format
+          
+          const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width // Maintaining aspect ratio.
+
+          pdf.addImage(data, "png", 0, 0, pdfWidth, pdfHeight)
+          pdf.save("resume.pdf")
+        
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles['container-section1']}>
@@ -68,7 +97,9 @@ const Body = () => {
                 </div>
 
                 <div className={styles['container-section1-btn']}>
-                    <button>Download <DownloadCloud /> </button>
+                    <button onClick={handleDownload}>
+                        Download <DownloadCloud /> 
+                    </button>
                 </div>
 
             </div>
@@ -77,6 +108,7 @@ const Body = () => {
                 setResumeInformation={setResumeInformation} />
 
             <Resume
+                ref={resumeRef}
                 resumeInformation={resumeInformation}
                 sections={sections} 
                 color={activeColor}

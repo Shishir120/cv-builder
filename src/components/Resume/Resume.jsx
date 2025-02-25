@@ -6,19 +6,19 @@
 
 // Left to make resume downloadable
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, forwardRef } from "react";
 import styles from './Resume.module.css'
 import { GitHub, Linkedin, Mail, Phone, Home, Link, Calendar, Trello, Clipboard, CornerDownRight }
     from 'react-feather'
 
 
-const Resume = (props) => {
+const Resume = forwardRef((props, ref) => {
     const sections = props.sections
     const resumeInformation = props.resumeInformation
     const activeColor = props.color // For changing color in resume
 
     const resumeRef = useRef()
-    
+
     const info = {
         basicInfo: resumeInformation[sections.basicInfo],
         workExp: resumeInformation[sections.workExperience],
@@ -44,12 +44,12 @@ const Resume = (props) => {
 
         // Returns -1 if index not found
         let swapSourceRowIndex = tempColumns.column0.findIndex((item) => {
-           return source === item
+            return source === item
         })
 
         // Returns -1 if index not found
         let swapTargetRowIndex = tempColumns.column0.findIndex((item) => {
-           return target === item
+            return target === item
         })
         // console.log(`source is ${source} and target is ${target}`);
 
@@ -89,8 +89,8 @@ const Resume = (props) => {
             setColumns(tempColumns)
             setSource("");  // After swap, change source and target to empty string
             setTarget("");
-        } 
-        else if(swapTargetColumnIndex == 0 && swapSourceColumnIndex == 1) {
+        }
+        else if (swapTargetColumnIndex == 0 && swapSourceColumnIndex == 1) {
 
             let tempData = tempColumns.column0[swapTargetRowIndex];
             tempColumns.column0[swapTargetRowIndex] = tempColumns.column1[swapSourceRowIndex];
@@ -100,7 +100,7 @@ const Resume = (props) => {
             setTarget("");
 
         }
-        else if(swapTargetColumnIndex == 1 && swapSourceColumnIndex == 0) {
+        else if (swapTargetColumnIndex == 1 && swapSourceColumnIndex == 0) {
 
             let tempData = tempColumns.column1[swapTargetRowIndex];
             tempColumns.column1[swapTargetRowIndex] = tempColumns.column0[swapSourceRowIndex];
@@ -110,7 +110,7 @@ const Resume = (props) => {
             setTarget("");
 
         }
-         else if(swapTargetColumnIndex == 1 && swapSourceColumnIndex == 1) {
+        else if (swapTargetColumnIndex == 1 && swapSourceColumnIndex == 1) {
 
             let tempData = tempColumns.column1[swapTargetRowIndex];
             tempColumns.column1[swapTargetRowIndex] = tempColumns.column1[swapSourceRowIndex];
@@ -138,6 +138,13 @@ const Resume = (props) => {
             {info.basicInfo?.details?.name ?
                 <div className={`${styles['basic-info-name']} ${styles['header-align']}`}>
                     <h1>{info.basicInfo?.details?.name}</h1>
+                </div>
+                : ""
+            }
+            
+            {info.basicInfo?.details?.aboutYourself ?
+                <div className={`${styles['basic-info-aboutYourself']} ${styles['header-align']}`}>
+                    {info.basicInfo?.details?.aboutYourself}
                 </div>
                 : ""
             }
@@ -386,7 +393,7 @@ const Resume = (props) => {
         )
     }
 
-    
+
     const [columns, setColumns] = useState(
         {
             column0: [sections.workExperience, sections.education],
@@ -425,7 +432,7 @@ const Resume = (props) => {
 
             <h1>Here is a CV Preview</h1>
 
-            <div className={styles['resume-container']}>
+            <div ref={ref} className={styles['resume-container']}>
 
                 <div className={styles['resume-container-headers']}>
                     {basicInfo}
@@ -450,6 +457,6 @@ const Resume = (props) => {
             </div>
         </div>
     )
-}
+})
 
 export default Resume

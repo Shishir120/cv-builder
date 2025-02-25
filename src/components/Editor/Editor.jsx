@@ -23,8 +23,6 @@ const Editor = (props) => {
     const [activeDetailIndex, setActiveDetailIndex] = useState(0)
 
 
-
-
     const [activeInformation, setActiveInformation] = useState(
         resumeInformation[sections.basicInfo]
     )
@@ -65,6 +63,7 @@ const Editor = (props) => {
     const basicInfo = (
         <div className={styles['details']}>
             <div className={styles['details-column']}>
+                
                 <div className={styles['details-row']}>
                     <InputComponent
                         label="Name"
