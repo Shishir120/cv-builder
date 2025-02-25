@@ -1,8 +1,3 @@
-// Solved when to diplay multiple chip and change accordingly // Testing left
-// Solved deletion of chips when X is pressed. // Testing left
-// Solved multiple chip display problem. // Testing left
-
-        
 import React, { useState, useEffect, act } from "react";
 import styles from './Editor.module.css';
 import InputComponent from "../InputComponent/InputComponent.jsx";
@@ -27,9 +22,6 @@ const Editor = (props) => {
         resumeInformation[sections.basicInfo]
     )
 
-    // console.log("Active information is:")
-    // console.log(activeInformation)
-
     const [values, setValues] = useState({
         name: "",
         address: "",
@@ -49,11 +41,6 @@ const Editor = (props) => {
         summary: ""
     })
 
-
-    // For Testing
-
-    // console.log(activeInformation)
-    // console.log('Section key is: ' + activeSectionKey)
 
     const [sectionTitle, setSectionTitle] = useState(
         sections[Object.keys(sections)[0]]
@@ -173,6 +160,7 @@ const Editor = (props) => {
 
         </div>
     )
+
     // Work experience form render
     const workExperience = (
         <div className={styles['details']}>
@@ -295,8 +283,6 @@ const Editor = (props) => {
     }
 
 
-    // Under development
-
     // It returns array whether that particular section index is empty or not
     // for eg. [true, false] // first detail true and second detail empty
     const isDetailsEmpty_Array = () => {
@@ -311,42 +297,15 @@ const Editor = (props) => {
         }
     }
 
-    // const isLastDetailEmpty = () => {
-    //     if(Array.isArray(activeInformation?.details)) {
-
-    //     }
-    // }
-
-
     // To save information
     const handleSave = () => {
-        // activeInformation.details
-        // console.log(values)
 
         let tempDetails = []
         let tempValue = {}
 
-        // May be useful
-        // activeInformation?.details?.map((detail, index) => {
-        //     Object.values(detail).some(value => value !== "") ? "" :
-        //      handleDeleteData(index) 
-        // })
-
-        // let detailStatus = isDetailsEmpty_Array()
-
-        // Testing
-        // if (isDetailsEmpty_Array()[activeDetailIndex]) {
-        //     console.log(isDetailsEmpty_Array()[activeDetailIndex])
-        //     return
-        // }
-        // else {
-        // }
-
         switch (sections[activeSectionKey]) {
 
-
             case sections.basicInfo:
-                // console.log("Inside basic info")
 
                 tempValue = {
                     name: values.name,
@@ -357,7 +316,6 @@ const Editor = (props) => {
                     github: values.github,
                     aboutYourself: values.aboutYourself
                 }
-
                 setResumeInformation((prev) =>
                 ({
                     ...prev, [sections.basicInfo]: {
@@ -376,7 +334,6 @@ const Editor = (props) => {
                     startDate: values.startDate,
                     endDate: values.endDate,
                 }
-                // tempDetails = [tempValue]
 
                 tempDetails = [...resumeInformation[sections.education]?.details]
                 tempDetails[activeDetailIndex] = tempValue
@@ -390,7 +347,7 @@ const Editor = (props) => {
                         }
                     }
                 ))
-                break
+                break;
 
             case sections.workExperience:
                 tempValue = {
@@ -400,10 +357,8 @@ const Editor = (props) => {
                     startDate: values.startDate,
                     endDate: values.endDate,
                 }
-
                 tempDetails = [...resumeInformation[sections.workExperience]?.details]
                 tempDetails[activeDetailIndex] = tempValue
-
 
                 setResumeInformation((prev) => (
                     {
@@ -425,7 +380,6 @@ const Editor = (props) => {
                     github: values.github,
                 }
 
-
                 tempDetails = [...resumeInformation[sections.projects]?.details]
                 tempDetails[activeDetailIndex] = tempValue
 
@@ -441,8 +395,8 @@ const Editor = (props) => {
                 break
 
             case sections.summary:
-                const summaryTempValue = values.summary
 
+                const summaryTempValue = values.summary
                 setResumeInformation((prev) => (
                     {
                         ...prev, [sections.summary]: {
@@ -452,7 +406,7 @@ const Editor = (props) => {
                         }
                     }
                 ))
-                break
+                break;
 
             default:
                 break;
@@ -475,10 +429,10 @@ const Editor = (props) => {
             const lastIndexInformation = activeInformation?.details[activeInformation.details.length - 1]
 
             // If no keys, meaning object is empty
-            // If object is empty, no no need to add more chip
+            // If object is empty, no need to add more chip
             Object.keys(lastIndexInformation).length !== 0 ?
 
-                // Adding new empty object to details so that new chip is displayed
+                // Adding new empty object to "details" so that new chip is displayed
                 setActiveInformation((prev) => ({ ...prev, details: [...prev.details, {}] }))
                 : ""
 
@@ -486,13 +440,13 @@ const Editor = (props) => {
         }
     }
 
-
+    // When chip is deleted
     const handleDeleteData = (index) => {
 
         let tempActiveInformationDetails = [...activeInformation.details]
-        tempActiveInformationDetails?.splice(index, 1)
 
-        // setActiveInformation((prev) => ({ ...prev, details: tempActiveInformationDetails }))
+        // Remove the index to be deleted from the array
+        tempActiveInformationDetails?.splice(index, 1)  
 
         setResumeInformation((prev) => ({
             ...prev,
@@ -502,14 +456,12 @@ const Editor = (props) => {
             }
         })
         )
-
     }
 
 
     useEffect(() => {
 
         setActiveInformation(resumeInformation[sections[activeSectionKey]])
-
         setValues({
             name: activeInformation?.details?.name || "",
             address: activeInformation?.details?.address || "",
@@ -538,7 +490,6 @@ const Editor = (props) => {
     useEffect(() => {
 
         setSectionTitle(activeInformation?.sectionTitle || "")
-
         setValues({
             name: activeInformation?.details?.name || "",
             address: activeInformation?.details?.address || "",
@@ -546,12 +497,11 @@ const Editor = (props) => {
             email: activeInformation?.details?.email || "",
             linkedIn: activeInformation?.details?.linkedIn || "",
 
-            /*Two cases in github as in basicInfo there is details object and  
+            /*Two cases in github as in "basicInfo" there is details object and  
             in rest others there is details array*/
             github: activeInformation?.details[activeDetailIndex]?.github || activeInformation?.details?.github || "",
 
             aboutYourself: activeInformation?.details?.aboutYourself || "",
-
             title: activeInformation?.details[activeDetailIndex]?.title || "",
             school: activeInformation?.details[activeDetailIndex]?.school || "",
             startDate: activeInformation?.details[activeDetailIndex]?.startDate || "",
@@ -563,38 +513,18 @@ const Editor = (props) => {
             summary: activeInformation?.details || "",
         })
 
-        console.log(resumeInformation)
-
-        // For Testiing
-        console.log(activeInformation)
-
-        // For Testing
-        console.log(isDetailsEmpty_Array())
-
     }, [activeInformation, activeDetailIndex])
-
-    // useEffect(() => {
-    //     setActiveInformation(resumeInformation[sections[activeSectionKey]])
-    // }, [activeDetailIndex])
-
 
     useEffect(() => {
         setActiveDetailIndex(0)
     }, [activeSectionKey])
 
 
-
-    // Testing
-    // useEffect(() => {
-    //     handleSave();
-    // },[values])
-
-
     return (
         <div className={styles['editor']}>
             <div className={styles['editor-container']}>
 
-                {/* Title of editor like Basic Info, Education */}
+                {/* Title of sections in editor like Basic Info, Education */}
                 <div className={styles['container-heading-section']}>
                     {Object.keys(sections).map((key) => {
                         return (
@@ -609,7 +539,7 @@ const Editor = (props) => {
                     })}
                 </div>
 
-                {/* Section title */}
+                {/* Title of section that will be displayed on resume */}
                 <div className={styles['container-section-title']}>
                     <InputComponent key={'title'} label="Title"
                         value={sectionTitle}
@@ -629,11 +559,10 @@ const Editor = (props) => {
                                         className={`${styles['chip']}
                                     ${activeDetailIndex === index ? styles['chip-active'] : ""}`}
                                     >
-
-
                                         <p>
                                             {activeInformation.sectionTitle}-{index + 1}
                                         </p>
+
                                         <span
                                             style={{ color: "white", fontSize: "1.2em", display: "flex" }}
                                             onClick={(event) => {
@@ -645,10 +574,10 @@ const Editor = (props) => {
                                         </span>
                                     </div>
                                 )
-
-                                // { setActiveDetailIndex(index) }
-                            }) : ""
+                            }) 
+                        : ""
                     }
+
 
                     {
                         (Array.isArray(activeInformation?.details)) ?
@@ -657,12 +586,14 @@ const Editor = (props) => {
                                 <span className={styles['chip-newdata']}
                                     onClick={handleAddData}>
                                     <p>New+</p>
-                                </span> : ""
-                             : ""
+                                </span> 
+                            : ""
+                        : ""
                     }
 
                 </div>
 
+                {/* To generate the form */}
                 {generateForm()}
 
                 <div className={styles['container-save-btn']}>

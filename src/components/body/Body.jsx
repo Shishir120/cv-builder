@@ -20,7 +20,7 @@ const Body = () => {
     }
 
     // Color to be used in resume
-    const [activeColor, setActiveColor] = useState('black')
+    const [activeColor, setActiveColor] = useState('gray')
 
     // Information in resume
     const [resumeInformation, setResumeInformation] = useState({
@@ -53,39 +53,47 @@ const Body = () => {
 
     const resumeRef = useRef()
 
+    // To Download the resume after download button is activate
     const handleDownload = async() => {
         const resume = resumeRef.current
 
         if(!resume){
             return
         }
+
         const canvas = await html2canvas(resume)
-        const data = canvas.toDataURL('image/png')
+
+        // toDataURL converts image to string format
+        const data = canvas.toDataURL('image/png')  
 
         const pdf = new jsPDF({
             orientation: "portrait",
             unit: "px",
             format: "a4"
           });
-          const imgProperties = pdf.getImageProperties(data); // imgProperties contains properties like actual width and actual height
 
-          const pdfWidth = pdf.internal.pageSize.getWidth();    // Setting width to width of a4 format
-          
-          const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width // Maintaining aspect ratio.
+          // imgProperties contains properties like actual width and actual height
+          const imgProperties = pdf.getImageProperties(data); 
+
+           // Setting width to width of a4 format
+          const pdfWidth = pdf.internal.pageSize.getWidth();   
+
+          // Maintaining aspect ratio.
+          const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width 
 
           pdf.addImage(data, "png", 0, 0, pdfWidth, pdfHeight)
           pdf.save("resume.pdf")
-        
     }
 
     return (
         <div className={styles.container}>
             <div className={styles['container-section1']}>
+
                 <div className={styles['container-section1-colors']}>
                     {colors.map((color) => {
                         return (
                             <div
-                                onClick={() => setActiveColor(color)} // To change color of contents in resume
+                                onClick={() => setActiveColor(color)} // To change color of icons in resume
                                 key={color}
                                 className={`${styles['container-section1-color']} 
                                     ${activeColor==color ? styles['active'] : "" } 
@@ -103,6 +111,7 @@ const Body = () => {
                 </div>
 
             </div>
+
             <Editor sections={sections}
                 resumeInformation={resumeInformation}
                 setResumeInformation={setResumeInformation} />
@@ -114,7 +123,6 @@ const Body = () => {
                 color={activeColor}
             />
         </div >
-
     )
 }
 

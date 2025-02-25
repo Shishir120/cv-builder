@@ -1,13 +1,10 @@
-/* Check out .summary.... Done checking */ 
-
 .resume {
-    --color: gray;  /* 'black' by default. It will be changed dynamically in jsx file*/
+    --color: gray;  /* 'gray' by default. It will be changed dynamically with value from jsx file*/
     min-height: 10rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 1rem;
-    /* width: 100vw; */
 }
 
 .feather-icon-style {
@@ -21,8 +18,6 @@
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
-
-    /* align-items: center; */
 }
 
 .resume-container-headers {
@@ -35,11 +30,8 @@
     flex-direction: column;
 }
 
-.basic-info-name {}
-
 .basic-info-contacts {
     display: flex;
-    /* align-items: center; */
     gap: 0.8rem;
     justify-content: center;
     padding-top: 0.4rem;
@@ -48,10 +40,6 @@
 .basic-info-aboutYourself{
     font-weight: 600;
 }
-
-.basic-info-address {}
-
-.basic-info-phone {}
 
 .basic-info-links {
     display: flex;
@@ -86,13 +74,12 @@
     margin-top : 0.5rem;
     padding-top: 0.3rem;
     border-top: 2px solid rgba(0, 0, 0, 0.2);
-
 }
+
 
 .work-exp {
     display: flex;
     flex-direction: column;
-    /* gap: 0.5rem; */
 }
 
 .workexp-content-individual {
@@ -107,21 +94,6 @@
     font-weight: 800;
 }
 
-/*
-.work-exp-company {
-    font-size: 1.5rem;
-
-}
-
-.work-exp-certificate {
-    font-size: 1.5rem;
-    
-}
-
-.work-exp-date {
-    font-size: 1.5rem;
-
-} */
 
 .project {
     display: flex;
@@ -145,15 +117,10 @@
     gap: 0.2rem;
 }
 
-.project-deployed {}
-
-.project-github {}
 
 .education {
-    /* margin-top: 1rem; */
     display: flex;
     flex-direction: column;
-    /* gap: 0.5rem; */
 }
 
 .education-title {
@@ -171,9 +138,6 @@
 .summary {
     display: flex;
     flex-direction: column;
-    /* gap: 0.5rem; */
-    /* min-height: 37px;       Just barely making the code work */
-    /* margin-top: 1rem; */
 }
 
 .resume-container-columns {
@@ -196,10 +160,4 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-}
-
-
-/* For Testing */
-.linkedIn {
-    color: blue;
 }

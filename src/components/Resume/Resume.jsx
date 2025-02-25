@@ -1,21 +1,12 @@
-// Work Experience and other template yet to design 
-// Underline the Section Title in preview
-// also design the resume in columns properly using use state // Done
-// left to make draggable property in handleDragDrops // Testing left
-// Colors managed in resume.... Done
-
-// Left to make resume downloadable
-
 import React, { useEffect, useState, useRef, forwardRef } from "react";
 import styles from './Resume.module.css'
-import { GitHub, Linkedin, Mail, Phone, Home, Link, Calendar, Trello, Clipboard, CornerDownRight }
+import { GitHub, Linkedin, Mail, Phone, Home, Link, Calendar, Clipboard, CornerDownRight }
     from 'react-feather'
-
 
 const Resume = forwardRef((props, ref) => {
     const sections = props.sections
     const resumeInformation = props.resumeInformation
-    const activeColor = props.color // For changing color in resume
+    const activeColor = props.color // For changing color in resume preview
 
     const resumeRef = useRef()
 
@@ -32,15 +23,9 @@ const Resume = forwardRef((props, ref) => {
     const [target, setTarget] = useState("");
 
     const handleDragDrop = () => {
-        // console.log("Handle drag drop called")
         if (!source || !target) return
 
-        // console.log("Not returned")
         let tempColumns = { ...columns }
-
-        // console.log(`temp columns column0 is: ${tempColumns.column0}`)
-        // console.log(tempColumns)
-
 
         // Returns -1 if index not found
         let swapSourceRowIndex = tempColumns.column0.findIndex((item) => {
@@ -51,16 +36,11 @@ const Resume = forwardRef((props, ref) => {
         let swapTargetRowIndex = tempColumns.column0.findIndex((item) => {
             return target === item
         })
-        // console.log(`source is ${source} and target is ${target}`);
 
-
-        // console.log(`swap Target row index = ${swapTargetRowIndex} and source index is ${swapSourceRowIndex}`)
-
-        // To determine whether data is in column0 or column1 inside columns
+        // To determine whether data is in column0 or column1 inside "columns"
         // Initially setting source and target column to 0
         let swapSourceColumnIndex = 0;
         let swapTargetColumnIndex = 0;
-
 
         // swapSourceRowIndex contains -1 if match not found in column0.
         if (swapSourceRowIndex < 0) {
@@ -78,11 +58,7 @@ const Resume = forwardRef((props, ref) => {
             })
         }
 
-        // console.log("before if condition")   
-        // console.log(`swap Target column index = ${swapTargetColumnIndex} and source index is ${swapSourceColumnIndex}`)
-
         if (swapTargetColumnIndex == 0 && swapSourceColumnIndex == 0) {
-
             let tempData = tempColumns.column0[swapTargetRowIndex];
             tempColumns.column0[swapTargetRowIndex] = tempColumns.column0[swapSourceRowIndex];
             tempColumns.column0[swapSourceRowIndex] = tempData
@@ -90,28 +66,26 @@ const Resume = forwardRef((props, ref) => {
             setSource("");  // After swap, change source and target to empty string
             setTarget("");
         }
-        else if (swapTargetColumnIndex == 0 && swapSourceColumnIndex == 1) {
 
+        else if (swapTargetColumnIndex == 0 && swapSourceColumnIndex == 1) {
             let tempData = tempColumns.column0[swapTargetRowIndex];
             tempColumns.column0[swapTargetRowIndex] = tempColumns.column1[swapSourceRowIndex];
             tempColumns.column1[swapSourceRowIndex] = tempData
             setColumns(tempColumns)
             setSource("");  // After swap, change source and target to empty string
             setTarget("");
-
         }
-        else if (swapTargetColumnIndex == 1 && swapSourceColumnIndex == 0) {
 
+        else if (swapTargetColumnIndex == 1 && swapSourceColumnIndex == 0) {
             let tempData = tempColumns.column1[swapTargetRowIndex];
             tempColumns.column1[swapTargetRowIndex] = tempColumns.column0[swapSourceRowIndex];
             tempColumns.column0[swapSourceRowIndex] = tempData
             setColumns(tempColumns)
             setSource("");  // After swap, change source and target to empty string
             setTarget("");
-
         }
-        else if (swapTargetColumnIndex == 1 && swapSourceColumnIndex == 1) {
 
+        else if (swapTargetColumnIndex == 1 && swapSourceColumnIndex == 1) {
             let tempData = tempColumns.column1[swapTargetRowIndex];
             tempColumns.column1[swapTargetRowIndex] = tempColumns.column1[swapSourceRowIndex];
             tempColumns.column1[swapSourceRowIndex] = tempData
@@ -119,21 +93,18 @@ const Resume = forwardRef((props, ref) => {
             setSource("");  // After swap, change source and target to empty string
             setTarget("");
         }
-
     }
 
 
     const getFormattedDate = (value) => {
-
         if (!value) return "";
         const date = new Date(value);
-
         return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     }
 
+
     const basicInfo = (
         <div className={styles['basic-info']} key={'basicInfo'}>
-            {/* <div>{resumeInformation?.[sections.basicInfo]?.details?.name}</div> */}
 
             {info.basicInfo?.details?.name ?
                 <div className={`${styles['basic-info-name']} ${styles['header-align']}`}>
@@ -141,7 +112,7 @@ const Resume = forwardRef((props, ref) => {
                 </div>
                 : ""
             }
-            
+
             {info.basicInfo?.details?.aboutYourself ?
                 <div className={`${styles['basic-info-aboutYourself']} ${styles['header-align']}`}>
                     {info.basicInfo?.details?.aboutYourself}
@@ -155,7 +126,6 @@ const Resume = forwardRef((props, ref) => {
                 {info.basicInfo?.details?.address ?
                     <div className={`${styles['basic-info-address']} ${styles['header-align']}`}>
                         {<Home size={20} className={styles['feather-icon-style']} />} {info.basicInfo?.details?.address}
-
                     </div>
                     : ""
                 }
@@ -176,6 +146,7 @@ const Resume = forwardRef((props, ref) => {
 
             </div>
 
+
             <div className={styles['basic-info-links']}>
 
                 {info.basicInfo?.details?.github ?
@@ -191,15 +162,15 @@ const Resume = forwardRef((props, ref) => {
                     </div>
                     : ""
                 }
-
             </div>
+
         </div>
     )
+
 
     const columnDiv = {
 
         [sections.workExperience]: (
-
             <div draggable
                 onDragOver={() => setTarget(sections.workExperience)}
                 onDragEnd={() => setSource(sections.workExperience)}
@@ -208,17 +179,16 @@ const Resume = forwardRef((props, ref) => {
 
                 {info.workExp?.sectionTitle ?
                     <div className={styles['section-title']}>
-                        {info.workExp?.sectionTitle}       {/* It is not inside details */}
+                        {info.workExp?.sectionTitle}       {/* It is not inside "details" */}
                     </div>
                     : ""
                 }
 
-                < div className={styles['workExp-content']}>
+                <div className={styles['workExp-content']}>
                     {info.workExp?.details?.map((item, index) => {
                         return (
-
                             <div className={`${styles['workexp-content-individual']} 
-                            ${index >= 1 ? styles['multiple-content'] : ""}`}>
+                                ${index >= 1 ? styles['multiple-content'] : ""}`}>
 
                                 {item.title ?
                                     <div className={`${styles['work-exp-title']} ${styles['data-align']}`}>
@@ -229,7 +199,6 @@ const Resume = forwardRef((props, ref) => {
 
                                 {item.company ?
                                     <div className={`${styles['work-exp-company']} ${styles['data-align']}`}>
-                                        {/* <Trello size={20} />  */}
                                         {item.company}
                                     </div>
                                     : ""
@@ -254,7 +223,6 @@ const Resume = forwardRef((props, ref) => {
                     })}
                 </div>
 
-
             </div >
         ),
 
@@ -277,7 +245,7 @@ const Resume = forwardRef((props, ref) => {
                     {info?.projects?.details?.map((item, index) => {
                         return (
                             <div className={`${styles['project-content-individual']}
-                            ${index >= 1 ? styles['multiple-content'] : ""}`}
+                                ${index >= 1 ? styles['multiple-content'] : ""}`}
                                 key={sections.projects + index}>
 
                                 {item.title ?
@@ -307,7 +275,6 @@ const Resume = forwardRef((props, ref) => {
                                     </div>
                                     : ""
                                 }
-
                             </div>
                         )
                     })}
@@ -346,7 +313,6 @@ const Resume = forwardRef((props, ref) => {
 
                                 {item.school ?
                                     <div className={`${styles['education-school']} ${styles['data-align']}`}>
-                                        {/* <Trello size={15} /> */}
                                         {item.school}
                                     </div>
                                     : ""
@@ -359,7 +325,6 @@ const Resume = forwardRef((props, ref) => {
                                     </div>
                                     : ""
                                 }
-
                             </div>
                         )
                     })}
@@ -375,7 +340,6 @@ const Resume = forwardRef((props, ref) => {
                 onDragEnd={() => setSource(sections.summary)}
                 className={styles['summary']} key={'summary'}
             >
-
                 {info.summary?.sectionTitle ?
                     <div className={styles['section-title']}>
                         {info.summary.sectionTitle}
@@ -394,14 +358,13 @@ const Resume = forwardRef((props, ref) => {
     }
 
 
+    // There are 2 columns in resume preview, so to make 2 columns, "columns" state is used
     const [columns, setColumns] = useState(
         {
             column0: [sections.workExperience, sections.education],
             column1: [sections.projects, sections.summary]
         }
     )
-
-    // console.log("columns are" + [columns.column0])
 
     useEffect(() => {
         setColumns(
@@ -411,6 +374,7 @@ const Resume = forwardRef((props, ref) => {
             }
         )
     }, [resumeInformation])
+
 
     useEffect(() => {
         handleDragDrop();
@@ -426,7 +390,7 @@ const Resume = forwardRef((props, ref) => {
         resume.style.setProperty("--color", activeColor)
     }, [activeColor])
 
-    // console.log(resumeInformation?.[sections.basicInfo]?.details?.name)
+
     return (
         <div className={styles['resume']} ref={resumeRef}>
 
@@ -451,8 +415,6 @@ const Resume = forwardRef((props, ref) => {
                     </div>
 
                 </div>
-
-
 
             </div>
         </div>

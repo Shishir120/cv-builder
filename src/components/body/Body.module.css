@@ -23,20 +23,16 @@
     gap: 20px;
     border-radius: 50%;
     cursor: pointer;
+    opacity: 0.9;
 }
 
 .active {
     border: 5px solid #084b1c;
 }
 
-/* .container-section1-color:hover {
-    border-color: black;
-
-} */
-/* 
-.container-section1-color:focus {
-    opacity: 0.1;
-} */
+.container-section1-color:hover {
+    opacity: 0.6;
+}
 
 .container-section1-btn {
     margin-right: 2rem;
@@ -56,7 +52,7 @@
     cursor: pointer;
 }
 
-/* automatically created with feather icons */
+/* automatically created when page is rendered with feather icons */
 .container-section1-btn button svg {    
     width: 1em;
     height: 1em;
